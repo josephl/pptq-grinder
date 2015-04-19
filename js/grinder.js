@@ -86,7 +86,7 @@ Event.prototype.setMarker = function (map) {
 
 Event.prototype.infoWindowContent = function () {
     var container = document.createElement('div');
-    var header = document.createElement('h2');
+    var header = document.createElement('h3');
     var info = document.createElement('p');
     var emailContainer = document.createElement('p');
     var emailLink = document.createElement('a');
