@@ -26,7 +26,33 @@
 
             <div class="row">
                 <div id="map-container" class="col-md-9"></div>
-                <div id="controls" class="col-md-3"></div>
+                <form id="controls" class="col-md-3">
+                    <ul class="list-group">
+                        <li class="list-group-item active">
+                            Format
+                        </li>
+                        <li class="list-group-item">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="format-standard" checked="checked">
+                                    Standard
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="format-modern" checked="checked">
+                                    Modern
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="format-sealed" checked="checked">
+                                    Sealed
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
             </div>
 
             <!-- XXX: don't make table
