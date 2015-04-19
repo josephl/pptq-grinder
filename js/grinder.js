@@ -41,7 +41,6 @@ function Event (pptq, app, i) {
 
 /* Create row element for event to add to table */
 Event.prototype.createRow = function (pptq) {
-    var self = this;
     var row = document.createElement('tr');
     row.setAttribute('data-pptq-event', this);
     _.each(columnKeys, function (colKey) {
@@ -55,12 +54,12 @@ Event.prototype.createRow = function (pptq) {
             cell.style['text-align'] = 'center';
             cell.appendChild(node);
         } else if (colKey == 'startDate') {
-            cell.innerText = self.dateString();
+            cell.innerText = this.dateString();
         } else {
             cell.innerText = pptq[colKey];
         }
         row.appendChild(cell);
-    });
+    }.bind(this));
     return row;
 }
 
@@ -84,12 +83,12 @@ Event.prototype.setMarker = function (map) {
         this.infoWindow = new google.maps.InfoWindow({
             content: this.infoWindowContent()
         });
-        var self = this;
         google.maps.event.addListener(this.marker, 'click', function () {
-            self.app.clickEvent(self)
-        });
-    } else {
-        // Marker exists, update map. Convenient for map = null to hide.
+            this.app.clickEvent(this)
+        }.bind(this));
+    } else if (map !== this.marker.getMap()) {
+        // Marker exists, update map if different.
+        // Convenient for map = null to hide.
         this.marker.setMap(map);
     }
 }
@@ -134,20 +133,16 @@ Event.prototype.pastDate = function () {
     return this.startDate <= yesterday;
 }
 
-function Grinder (mapElement, tableElement, currentLocation) {
-    var mapOptions = {
-        center: {
-            lat: currentLocation.coords.latitude,
-            lng: currentLocation.coords.longitude
-        },
-        zoom: 8
-    };
-    this.map = new google.maps.Map(mapElement, mapOptions);
+function Grinder (mapElement, tableElement) {
     // XXX: don't show table
     //this.table = tableElement;
+    this.mapElement = mapElement;
     this.jsonUrl = 'pptqmil15locations.json';
     this.showPastEvents = false;
     this.events = [];
+    this.eventsCreated = false;
+    this.fetchEvents();
+    navigator.geolocation.getCurrentPosition(this.renderMap.bind(this));
 }
 
 Grinder.prototype.fetchEvents = function () {
@@ -157,20 +152,37 @@ Grinder.prototype.fetchEvents = function () {
     });
 }
 
+Grinder.prototype.renderMap = function (currentLocation) {
+    var mapOptions = {
+        center: {
+            lat: currentLocation.coords.latitude,
+            lng: currentLocation.coords.longitude
+        },
+        zoom: 8
+    };
+    this.map = new google.maps.Map(this.mapElement, mapOptions);
+
+    // Show all markers
+    _.each(this.events, function (pptqEvent) {
+        pptqEvent.setMarker(this.map);
+    }.bind(this));
+}
+
 Grinder.prototype.renderEvents = function (data) {
-    console.log('events fetched');
-    var self = this;
     _.each(data.pptqs, function (pptq, i) {
         // Only show upcoming or current events
-        var pptqEvent = new Event(pptq, self, i);
-        self.events.push(pptqEvent);
-        if (self.showPastEvents === false && pptqEvent.pastDate()) {
+        var pptqEvent = new Event(pptq, this, i);
+        this.events.push(pptqEvent);
+        if (this.showPastEvents === false && pptqEvent.pastDate()) {
             return;
         }
         // XXX: don't make table
-        //self.table.appendChild(pptqEvent.rowElement);
-        pptqEvent.setMarker(self.map);
-    });
+        //this.table.appendChild(pptqEvent.rowElement);
+    }.bind(this));
+    this.eventsCreated = true;
+    _.each(this.events, function (pptqEvent) {
+        pptqEvent.setMarker(this.map);
+    }.bind(this));
 }
 
 /* Callback when marker is clicked */
@@ -202,9 +214,9 @@ var initializeApp = function (position) {
     var table = document.getElementById('pptq-table');
     var map = document.getElementById('map-container');
     var app = new Grinder(map, table, position);
-    app.fetchEvents();
 };
 
 (function ($) {
-    navigator.geolocation.getCurrentPosition(initializeApp);
+    //navigator.geolocation.getCurrentPosition(initializeApp);
+    var app = new Grinder(document.getElementById('map-container'));
 })(jQuery);
