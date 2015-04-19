@@ -1,11 +1,3 @@
-function formatAddress (pptqObject) {
-    return ['city', 'region', 'country'].map(function (level) {
-        return pptqObject[level];
-    }).filter(function (term) {
-        return term !== undefined && term.length > 0;
-    }).join(', ');
-}
-
 var columnKeys = [
     'startDate',
     'format',
@@ -37,35 +29,73 @@ function Event (pptq, app, i) {
     this.index = i;
     // XXX: don't make table
     //this.rowElement = this.createRow(pptq);
+    this.createMarker();
 }
 
-/* Create row element for event to add to table */
-Event.prototype.createRow = function (pptq) {
-    var row = document.createElement('tr');
-    row.setAttribute('data-pptq-event', this);
-    _.each(columnKeys, function (colKey) {
-        var cell = document.createElement('td');
-        var node;
-        cell.setAttribute('data-column', colKey);
-        if (colKey == 'email') {
-            node = document.createElement('a');
-            node.href = 'mailto:' + pptq[colKey];
-            node.innerText = 'Email';
-            cell.style['text-align'] = 'center';
-            cell.appendChild(node);
-        } else if (colKey == 'startDate') {
-            cell.innerText = this.dateString();
-        } else {
-            cell.innerText = pptq[colKey];
-        }
-        row.appendChild(cell);
-    }.bind(this));
-    return row;
-};
+// XXX: Don't show tables
+// /* Create row element for event to add to table */
+// Event.prototype.createRow = function (pptq) {
+//     var row = document.createElement('tr');
+//     row.setAttribute('data-pptq-event', this);
+//     _.each(columnKeys, function (colKey) {
+//         var cell = document.createElement('td');
+//         var node;
+//         cell.setAttribute('data-column', colKey);
+//         if (colKey == 'email') {
+//             node = document.createElement('a');
+//             node.href = 'mailto:' + pptq[colKey];
+//             node.innerText = 'Email';
+//             cell.style['text-align'] = 'center';
+//             cell.appendChild(node);
+//         } else if (colKey == 'startDate') {
+//             cell.innerText = this.dateString();
+//         } else {
+//             cell.innerText = pptq[colKey];
+//         }
+//         row.appendChild(cell);
+//     }.bind(this));
+//     return row;
+// };
 
 Event.prototype.hasLocation = function () {
     return typeof(this.location) !== 'undefined';
 };
+
+/* Create map marker for event (if location available) */
+Event.prototype.createMarker = function () {
+    var loc;
+    var latLng;
+    var map = this.app.map || null;
+    if (!this.hasLocation()) { return; }
+
+    loc = this.location.geometry.location;
+    latLng = new google.maps.LatLng(loc.lat, loc.lng);
+    this.marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+        title: this.venueName
+    });
+    this.infoWindow = new google.maps.InfoWindow({
+        content: this.infoWindowContent()
+    });
+    google.maps.event.addListener(this.marker, 'click', function () {
+        this.app.markerClicked(this)
+    }.bind(this));
+}
+
+/* Set event's marker visibility according to filter state */
+Event.prototype.updateMarker = function () {
+    if (typeof(this.marker) === 'undefined') { return; }
+    if (this.app.controller.eventVisible(this)) {
+        if (!this.marker.getMap()) {
+            this.marker.setMap(this.app.map);
+        }
+    } else {
+        if (this.marker.getMap()) {
+            this.marker.setMap(null);
+        }
+    }
+}
 
 Event.prototype.setMarker = function (map) {
     var loc;
@@ -155,7 +185,8 @@ ControlForm.prototype.updateFilter = function () {
     this.app.refreshEvents();
 };
 
-ControlForm.prototype.showEvent = function (pptqEvent) {
+// Based on form state, determine if event's marker should be shown
+ControlForm.prototype.eventVisible = function (pptqEvent) {
     // Check by format
     if (!this.format[pptqEvent.format.toLowerCase()]) { return false; }
 
@@ -175,6 +206,7 @@ function Grinder (mapElement, controlFormElement, tableElement) {
     this.showPastEvents = false;
     this.events = [];
     this.eventsCreated = false;
+
     this.fetchEvents();
     navigator.geolocation.getCurrentPosition(this.renderMap.bind(this));
 }
@@ -183,7 +215,7 @@ function Grinder (mapElement, controlFormElement, tableElement) {
 Grinder.prototype.fetchEvents = function () {
     $.ajax(this.jsonUrl, {
         data: 'text/json',
-        success: this.renderEvents.bind(this)
+        success: this.loadEvents.bind(this)
     });
 };
 
@@ -197,15 +229,11 @@ Grinder.prototype.renderMap = function (currentLocation) {
         zoom: 8
     };
     this.map = new google.maps.Map(this.mapElement, mapOptions);
-
-    // Show all markers
-    _.each(this.events, function (pptqEvent) {
-        pptqEvent.setMarker(this.map);
-    }.bind(this));
+    this.refreshEvents();
 };
 
 /* Parse PPTQ event JSON, create each Event object */
-Grinder.prototype.renderEvents = function (data) {
+Grinder.prototype.loadEvents = function (data) {
     _.each(data.pptqs, function (pptq, i) {
         // Only show upcoming or current events
         var pptqEvent = new Event(pptq, this, i);
@@ -217,15 +245,16 @@ Grinder.prototype.renderEvents = function (data) {
         //this.table.appendChild(pptqEvent.rowElement);
     }.bind(this));
     this.eventsCreated = true;
-    _.each(this.events, function (pptqEvent) {
-        pptqEvent.setMarker(this.map);
-    }.bind(this));
+    this.refreshEvents();
 };
 
 /* Update showing of each event marker */
 Grinder.prototype.refreshEvents = function () {
+    // Bail if both map and events aren't ready
+    if (!(this.eventsCreated && typeof(this.map) !== 'undefined')) { return; }
+
     _.each(this.events, function (pptqEvent) {
-        pptqEvent.setMarker(this.map);
+        pptqEvent.updateMarker();
     }.bind(this));
 };
 
