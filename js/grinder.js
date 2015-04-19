@@ -12,6 +12,7 @@ var columnKeys = [
 // Date objects
 var now = new Date();
 var yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+var CENTER_US = new google.maps.LatLng(37.6, -95.665);
 
 /** Object definitions **/
 function Event (pptq, app, i) {
@@ -207,8 +208,13 @@ function Grinder (mapElement, controlFormElement, tableElement) {
     this.events = [];
     this.eventsCreated = false;
 
+    this.renderMap();
     this.fetchEvents();
-    navigator.geolocation.getCurrentPosition(this.renderMap.bind(this));
+    navigator.geolocation.getCurrentPosition(function (position) {
+        var currentLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        this.map.setCenter(currentLatLng);
+        this.map.setZoom(8);
+    }.bind(this));
 }
 
 /* Perform ajax request of JSON object of each PPTQ event */
@@ -220,16 +226,8 @@ Grinder.prototype.fetchEvents = function () {
 };
 
 /* Instantiate app's Google Map, called upon geolocation */
-Grinder.prototype.renderMap = function (currentLocation) {
-    var mapOptions = {
-        center: {
-            lat: currentLocation.coords.latitude,
-            lng: currentLocation.coords.longitude
-        },
-        zoom: 8
-    };
-    this.map = new google.maps.Map(this.mapElement, mapOptions);
-    this.refreshEvents();
+Grinder.prototype.renderMap = function () {
+    this.map = new google.maps.Map(this.mapElement, this.options.mapOptions);
 };
 
 /* Parse PPTQ event JSON, create each Event object */
@@ -285,6 +283,13 @@ Grinder.prototype.markerClicked = function (clickedEvent) {
     }
 };
 
+Grinder.prototype.options = {
+    mapOptions: {
+        zoom: 4,
+        center: CENTER_US,
+        streetViewControl: false
+    }
+};
 
 (function ($) {
     var app = new Grinder(
