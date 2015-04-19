@@ -35,7 +35,8 @@ function Event (pptq, app, i) {
     this.app = app;
     this.location = pptq.location;
     this.index = i;
-    this.rowElement = this.createRow(pptq);
+    // XXX: don't make table
+    //this.rowElement = this.createRow(pptq);
 }
 
 /* Create row element for event to add to table */
@@ -142,7 +143,8 @@ function Grinder (mapElement, tableElement, currentLocation) {
         zoom: 8
     };
     this.map = new google.maps.Map(mapElement, mapOptions);
-    this.table = tableElement;
+    // XXX: don't show table
+    //this.table = tableElement;
     this.jsonUrl = 'pptqmil15locations.json';
     this.showPastEvents = false;
     this.events = [];
@@ -165,7 +167,8 @@ Grinder.prototype.renderEvents = function (data) {
         if (self.showPastEvents === false && pptqEvent.pastDate()) {
             return;
         }
-        self.table.appendChild(pptqEvent.rowElement);
+        // XXX: don't make table
+        //self.table.appendChild(pptqEvent.rowElement);
         pptqEvent.setMarker(self.map);
     });
 }
