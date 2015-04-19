@@ -38,13 +38,26 @@ function Event (pptq, app, i) {
     this.rowElement = this.createRow(pptq);
 }
 
+/* Create row element for event to add to table */
 Event.prototype.createRow = function (pptq) {
+    var self = this;
     var row = document.createElement('tr');
     row.setAttribute('data-pptq-event', this);
     _.each(columnKeys, function (colKey) {
         var cell = document.createElement('td');
+        var node;
         cell.setAttribute('data-column', colKey);
-        cell.innerText = pptq[colKey];
+        if (colKey == 'email') {
+            node = document.createElement('a');
+            node.href = 'mailto:' + pptq[colKey];
+            node.innerText = 'Email';
+            cell.style['text-align'] = 'center';
+            cell.appendChild(node);
+        } else if (colKey == 'startDate') {
+            cell.innerText = self.dateString();
+        } else {
+            cell.innerText = pptq[colKey];
+        }
         row.appendChild(cell);
     });
     return row;
@@ -77,7 +90,6 @@ Event.prototype.setMarker = function (map) {
         google.maps.event.addListener(this.marker, 'click', function () {
             self.app.clickEvent(self)
         });
-        // TODO: infowindow
     } else {
         // Marker exists, update map. Convenient for map = null to hide.
         this.marker.setMap(map);
@@ -91,11 +103,8 @@ Event.prototype.infoWindowContent = function () {
     var emailContainer = document.createElement('p');
     var emailLink = document.createElement('a');
     header.innerText = this.venueName;
-    info.innerText = this.format + ' - ' +
-        (this.startDate.getMonth() + 1) + '/' +
-        this.startDate.getDate() + '/' +
-        (this.startDate.getFullYear());
-    emailContainer.innertText = 'Email: ';
+    info.innerText = this.format + ' - ' + this.dateString();
+    emailContainer.innerText = 'Email: ';
     emailLink.href = 'mailto:' + this.email;
     emailLink.innerText = this.email;
     emailContainer.appendChild(emailLink);
@@ -103,6 +112,13 @@ Event.prototype.infoWindowContent = function () {
     container.appendChild(info);
     container.appendChild(emailContainer);
     return container.innerHTML;
+}
+
+/* Get date string of format MM/DD/YY */
+Event.prototype.dateString = function () {
+    return (this.startDate.getMonth() + 1) + '/' +
+        this.startDate.getDate() + '/' +
+        (this.startDate.getYear() % 100);
 }
 
 Event.prototype.pastDate = function () {
