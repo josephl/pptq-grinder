@@ -71,6 +71,10 @@ Event.prototype.setMarker = function (map) {
     var loc;
     var latLng;
     if (!this.hasLocation()) { return; }
+
+    // Check controller if this event is currently filtered
+    if (!this.app.controller.showEvent(this)) { map = null; }
+
     if (typeof(this.marker) === 'undefined') {
         // Marker doesn't exist, create
         loc = this.location.geometry.location;
@@ -134,11 +138,39 @@ Event.prototype.pastDate = function () {
 };
 
 
+/** Control Form **/
+function ControlForm (formElement, app) {
+    this.app = app;
+    this.element = formElement;
+    this.element.onchange = this.updateFilter.bind(this);
+    this.format = {};
+    this.updateFilter();
+}
+
+/* Audit form, update filter values */
+ControlForm.prototype.updateFilter = function () {
+    _.each(this.element.querySelectorAll('input[type=checkbox]'), function (box) {
+        this.format[box.getAttribute('value')] = box.checked;
+    }.bind(this));
+    this.app.refreshEvents();
+};
+
+ControlForm.prototype.showEvent = function (pptqEvent) {
+    // Check by format
+    if (!this.format[pptqEvent.format.toLowerCase()]) { return false; }
+
+    // TODO: check by date range
+
+    return true;
+}
+
+
 /** Grinder Object - Top level application object **/
-function Grinder (mapElement, tableElement) {
+function Grinder (mapElement, controlFormElement, tableElement) {
     // XXX: don't show table
     //this.table = tableElement;
     this.mapElement = mapElement;
+    this.controller = new ControlForm(controlFormElement, this);
     this.jsonUrl = 'pptqmil15locations.json';
     this.showPastEvents = false;
     this.events = [];
@@ -190,6 +222,13 @@ Grinder.prototype.renderEvents = function (data) {
     }.bind(this));
 };
 
+/* Update showing of each event marker */
+Grinder.prototype.refreshEvents = function () {
+    _.each(this.events, function (pptqEvent) {
+        pptqEvent.setMarker(this.map);
+    }.bind(this));
+};
+
 /* Callback when marker is clicked.
  * Only show one info window at a time, and hide info window when
  * marker is clicked when its info window is already showing. */
@@ -219,5 +258,7 @@ Grinder.prototype.markerClicked = function (clickedEvent) {
 
 
 (function ($) {
-    var app = new Grinder(document.getElementById('map-container'));
+    var app = new Grinder(
+        document.getElementById('map-container'),
+        document.getElementById('controller'));
 })(jQuery);
