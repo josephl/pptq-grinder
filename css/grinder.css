@@ -1,6 +1,9 @@
 #map-container {
-    width: 800px;
-    height: 600px;
-    margin: 24px auto;
+    height: 400px;
+    margin: 24px 0;
     background-color: #bbb;
+}
+
+.info-window {
+    max-width: 300px;
 }

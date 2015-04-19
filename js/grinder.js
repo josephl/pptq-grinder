@@ -84,9 +84,6 @@ Event.prototype.setMarker = function (map) {
             content: this.infoWindowContent()
         });
         var self = this;
-        //google.maps.event.addListener(this.marker, 'click', function () {
-        //    self.infoWindow.open(map, self.marker);
-        //});
         google.maps.event.addListener(this.marker, 'click', function () {
             self.app.clickEvent(self)
         });
@@ -97,21 +94,32 @@ Event.prototype.setMarker = function (map) {
 }
 
 Event.prototype.infoWindowContent = function () {
+    var shell = document.createElement('div');
     var container = document.createElement('div');
-    var header = document.createElement('h3');
-    var info = document.createElement('p');
+    var header = document.createElement('h4');
+    var address = document.createElement('h6');
+    var details = document.createElement('h6');
     var emailContainer = document.createElement('p');
     var emailLink = document.createElement('a');
     header.innerText = this.venueName;
-    info.innerText = this.format + ' - ' + this.dateString();
+    if (typeof(this.location) !== 'undefined' &&
+            typeof(this.location.formatted_address) !== 'undefined') {
+        address.innerText = this.location.formatted_address;
+    }
+    details.innerText = this.format + ' - ' + this.dateString();
     emailContainer.innerText = 'Email: ';
     emailLink.href = 'mailto:' + this.email;
     emailLink.innerText = this.email;
     emailContainer.appendChild(emailLink);
+    container.className = 'info-window';
     container.appendChild(header);
-    container.appendChild(info);
+    if (address.innerText.length > 0) {
+        container.appendChild(address);
+    }
+    container.appendChild(details);
     container.appendChild(emailContainer);
-    return container.innerHTML;
+    shell.appendChild(container);
+    return shell.innerHTML;
 }
 
 /* Get date string of format MM/DD/YY */
@@ -131,7 +139,7 @@ function Grinder (mapElement, tableElement, currentLocation) {
             lat: currentLocation.coords.latitude,
             lng: currentLocation.coords.longitude
         },
-        zoom: 6
+        zoom: 8
     };
     this.map = new google.maps.Map(mapElement, mapOptions);
     this.table = tableElement;
@@ -148,6 +156,7 @@ Grinder.prototype.fetchEvents = function () {
 }
 
 Grinder.prototype.renderEvents = function (data) {
+    console.log('events fetched');
     var self = this;
     _.each(data.pptqs, function (pptq, i) {
         // Only show upcoming or current events
