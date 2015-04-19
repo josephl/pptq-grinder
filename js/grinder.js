@@ -61,11 +61,11 @@ Event.prototype.createRow = function (pptq) {
         row.appendChild(cell);
     }.bind(this));
     return row;
-}
+};
 
 Event.prototype.hasLocation = function () {
     return typeof(this.location) !== 'undefined';
-}
+};
 
 Event.prototype.setMarker = function (map) {
     var loc;
@@ -84,14 +84,14 @@ Event.prototype.setMarker = function (map) {
             content: this.infoWindowContent()
         });
         google.maps.event.addListener(this.marker, 'click', function () {
-            this.app.clickEvent(this)
+            this.app.markerClicked(this)
         }.bind(this));
     } else if (map !== this.marker.getMap()) {
         // Marker exists, update map if different.
         // Convenient for map = null to hide.
         this.marker.setMap(map);
     }
-}
+};
 
 Event.prototype.infoWindowContent = function () {
     var shell = document.createElement('div');
@@ -120,19 +120,21 @@ Event.prototype.infoWindowContent = function () {
     container.appendChild(emailContainer);
     shell.appendChild(container);
     return shell.innerHTML;
-}
+};
 
 /* Get date string of format MM/DD/YY */
 Event.prototype.dateString = function () {
     return (this.startDate.getMonth() + 1) + '/' +
         this.startDate.getDate() + '/' +
         (this.startDate.getYear() % 100);
-}
+};
 
 Event.prototype.pastDate = function () {
     return this.startDate <= yesterday;
-}
+};
 
+
+/** Grinder Object - Top level application object **/
 function Grinder (mapElement, tableElement) {
     // XXX: don't show table
     //this.table = tableElement;
@@ -145,13 +147,15 @@ function Grinder (mapElement, tableElement) {
     navigator.geolocation.getCurrentPosition(this.renderMap.bind(this));
 }
 
+/* Perform ajax request of JSON object of each PPTQ event */
 Grinder.prototype.fetchEvents = function () {
     $.ajax(this.jsonUrl, {
         data: 'text/json',
         success: this.renderEvents.bind(this)
     });
-}
+};
 
+/* Instantiate app's Google Map, called upon geolocation */
 Grinder.prototype.renderMap = function (currentLocation) {
     var mapOptions = {
         center: {
@@ -166,8 +170,9 @@ Grinder.prototype.renderMap = function (currentLocation) {
     _.each(this.events, function (pptqEvent) {
         pptqEvent.setMarker(this.map);
     }.bind(this));
-}
+};
 
+/* Parse PPTQ event JSON, create each Event object */
 Grinder.prototype.renderEvents = function (data) {
     _.each(data.pptqs, function (pptq, i) {
         // Only show upcoming or current events
@@ -183,10 +188,12 @@ Grinder.prototype.renderEvents = function (data) {
     _.each(this.events, function (pptqEvent) {
         pptqEvent.setMarker(this.map);
     }.bind(this));
-}
+};
 
-/* Callback when marker is clicked */
-Grinder.prototype.clickEvent = function (clickedEvent) {
+/* Callback when marker is clicked.
+ * Only show one info window at a time, and hide info window when
+ * marker is clicked when its info window is already showing. */
+Grinder.prototype.markerClicked = function (clickedEvent) {
     var previousEvent = this.activeEvent;
     var eventActivated = false;
 
@@ -208,15 +215,9 @@ Grinder.prototype.clickEvent = function (clickedEvent) {
     if (eventActivated === true) {
         clickedEvent.infoWindow.open(this.map, clickedEvent.marker);
     }
-}
-
-var initializeApp = function (position) {
-    var table = document.getElementById('pptq-table');
-    var map = document.getElementById('map-container');
-    var app = new Grinder(map, table, position);
 };
 
+
 (function ($) {
-    //navigator.geolocation.getCurrentPosition(initializeApp);
     var app = new Grinder(document.getElementById('map-container'));
 })(jQuery);
