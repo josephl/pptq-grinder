@@ -144,10 +144,12 @@ Event.prototype.infoWindowContent = function () {
     var details = document.createElement('h6');
     var emailContainer = document.createElement('p');
     var emailLink = document.createElement('a');
-    header.innerText = this.venueName;
     if (typeof(this.location) !== 'undefined' &&
             typeof(this.location.formatted_address) !== 'undefined') {
         address.innerText = this.location.formatted_address;
+        header.appendChild(this.externalMapLink());
+    } else {
+        header.innerText = this.venueName;
     }
     details.innerText = this.format + ' - ' + formatDateString(this.startDate);
     emailContainer.innerText = 'Email: ';
@@ -163,6 +165,22 @@ Event.prototype.infoWindowContent = function () {
     container.appendChild(emailContainer);
     shell.appendChild(container);
     return shell.innerHTML;
+};
+
+Event.prototype.externalMapLink = function () {
+    var link = document.createElement('a');
+    link.innerText = this.venueName;
+    link.target = '_blank';
+    link.href = 'https://www.google.com/maps?q=' + this.queryString();
+    return link;
+};
+
+Event.prototype.queryString = function () {
+    var formatStr = this.location.formatted_address;
+    if (typeof(this.location.name) !== 'undefined' && this.location.name.length > 0) {
+        formatStr = this.location.name + ', ' + formatStr;
+    }
+    return formatStr;
 };
 
 Event.prototype.pastDate = function () {
