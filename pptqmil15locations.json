@@ -34437,20 +34437,20 @@
             "email": "sven-adam@fantastische-welten-rostock.de",
             "format": "Modern",
             "location": {
-                "formatted_address": "Gutshofstra\u00dfe, 18334 Eixen, Germany",
+                "formatted_address": "Doberaner Straße 48, 18057 Rostock, Germany",
                 "geometry": {
                     "location": {
-                        "lat": 54.217868,
-                        "lng": 12.733661
+                        "lat": 54.09132,
+                        "lng": 12.11339
                     }
                 },
-                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
-                "id": "338085ee42ae8b9767192211bc9ada1fa842f7c9",
-                "name": "Andre Dietmar Bonitz Fantastische Welten",
-                "place_id": "ChIJDWK_U-yFrEcRb9Hse-DBajg",
-                "reference": "CoQBewAAAHfSc6wUaBry1obTzOJcHxrfw7y4XeLMM7yKPc4f5kR0FmTbXkqHBHiXreHivIyuBSoQnWYVChNOQ4Y5sbgEY4VBeN2CaJASgAbH7RW31clcNWYXJnKv3-Uc9GPqgSOsDPiBgfXcQjwC_QVDAS-MKRXoJpRhKWsb_7gCfClK9WbREhDfBOz5Ytt7H9v-LT8rmJa2GhSUp0ZinXD6S8W82Ry66JU0VFxMnQ",
+                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+                "id": "f269544df0a9caaac367d2bff38da6383dddc454",
+                "name": "Doberaner Str. 48",
+                "place_id": "ChIJ_cN0MEpXrEcRcEChvsKp40I",
+                "reference": "CpQBigAAAGbNSbWg1isabLi_4UK5SqlI0n1bMRgE3Yt_vQlm3RRkG7m23h4nv_N_xe3Jz5uRdqfMXduUq0tObDLI45gpp8tZeZUhloaznin9PUpdYbQr6tQo5ga-H5tLeMrae4qIc_rrH_QUPJrugvMI49JWTNk8Nx-LTEofSOXv0IJLZL8fwhvgJWFSxVaMirfb_YxgWxIQHb2M1A-n_ZKZAiShCG_yfBoUZVRgTnHNWj966l6zmlQclCgIOc8",
                 "types": [
-                    "establishment"
+                    "street_address"
                 ]
             },
             "region": "Mecklenburg-Vorpommern",
