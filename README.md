@@ -1,6 +1,6 @@
 # PPTQ Grinder
 
-This page can be found at [https://josephl.github.io/pptq-grinder](). Its purpose is to make it easier to search for Magic: the Gathering Preliminary Pro Tour Qualifier tournaments based on location, date, and format of the tournament.
+The working page can be found [here](http://josephl.github.io/pptq-grinder). Its purpose is to make it easier to search for Magic: the Gathering Preliminary Pro Tour Qualifier tournaments based on location, date, and format of the tournament.
 
 The [Official PPTQ events page](http://magic.wizards.com/en/pptqmil15/locations) is lacking in any method of visualizing locations or sorting and filtering by criteria. To help with this, I compiled the information in the table and attempted to locate venues using the Google Maps and Places APIs. I was able to plot most of them, and provide an interface to filter based on tournament format and tournament date.
 
