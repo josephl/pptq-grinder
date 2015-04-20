@@ -185,7 +185,7 @@ Event.prototype.queryString = function () {
     if (typeof(this.location.name) !== 'undefined' && this.location.name.length > 0) {
         formatStr = this.location.name + ', ' + formatStr;
     }
-    return formatStr;
+    return encodeURIComponent(formatStr);
 };
 
 Event.prototype.pastDate = function () {
