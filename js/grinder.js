@@ -176,14 +176,30 @@ function ControlForm (formElement, app) {
     this.element = formElement;
     this.element.onchange = this.updateFilter.bind(this);
     this.format = {};
+    this.startDate = TODAY;
+    this.endDate = PPTQ_SEASON_END;
+    this.dateRangePicker = $('input[name="daterange"]')
+        .val(moment(this.startDate).format('MM/DD/YYYY') + ' - ' +
+            moment(this.endDate).format('MM/DD/YYYY'))
+        .daterangepicker({
+            minDate: moment(TODAY),
+            maxDate: moment(PPTQ_SEASON_END)
+        });
     this.updateFilter();
 }
 
 /* Audit form, update filter values */
 ControlForm.prototype.updateFilter = function () {
+    // Update format
     _.each(this.element.querySelectorAll('input[type=checkbox]'), function (box) {
         this.format[box.getAttribute('value')] = box.checked;
     }.bind(this));
+
+    // Update date range. XXX: hacky right now. use moment.js everywhere
+    var rangeValue = this.dateRangePicker.val()
+    this.startDate = moment(rangeValue.substr(0, 10), 'MM/DD/YYYY')._d;
+    this.endDate = moment(rangeValue.substr(13), 'MM/DD/YYYY')._d;
+
     this.app.refreshEvents();
 };
 
@@ -192,7 +208,10 @@ ControlForm.prototype.eventVisible = function (pptqEvent) {
     // Check by format
     if (!this.format[pptqEvent.format.toLowerCase()]) { return false; }
 
-    // TODO: check by date range
+    // Check date within range
+    if (this.startDate > pptqEvent.startDate || this.endDate < pptqEvent.startDate) {
+        return false;
+    }
 
     return true;
 }
@@ -292,12 +311,7 @@ Grinder.prototype.options = {
     }
 };
 
-function initialDateRange () {
-    return formatDateString(TODAY) + ' - ' + formatDateString(PPTQ_SEASON_END);
-}
-
 (function ($) {
-    $('input[name="daterange"]').val(initialDateRange).daterangepicker();
     var app = new Grinder(
         document.getElementById('map-container'),
         document.getElementById('controller'));
