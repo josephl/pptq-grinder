@@ -37,34 +37,39 @@ function Event (pptq, app, i) {
     this.location = pptq.location;
     this.index = i;
     // XXX: don't make table
-    //this.rowElement = this.createRow(pptq);
-    this.createMarker();
+    // Create table row IFF location info isn't available
+    if (!this.hasLocation()) {
+        this.rowElement = this.createRow(pptq);
+        this.app.table.appendChild(this.rowElement);
+    } else {
+        this.createMarker();
+    }
 }
 
 // XXX: Don't show tables
-// /* Create row element for event to add to table */
-// Event.prototype.createRow = function (pptq) {
-//     var row = document.createElement('tr');
-//     row.setAttribute('data-pptq-event', this);
-//     _.each(columnKeys, function (colKey) {
-//         var cell = document.createElement('td');
-//         var node;
-//         cell.setAttribute('data-column', colKey);
-//         if (colKey == 'email') {
-//             node = document.createElement('a');
-//             node.href = 'mailto:' + pptq[colKey];
-//             node.innerText = 'Email';
-//             cell.style['text-align'] = 'center';
-//             cell.appendChild(node);
-//         } else if (colKey == 'startDate') {
-//             cell.innerText = this.dateString();
-//         } else {
-//             cell.innerText = pptq[colKey];
-//         }
-//         row.appendChild(cell);
-//     }.bind(this));
-//     return row;
-// };
+/* Create row element for event to add to table */
+Event.prototype.createRow = function (pptq) {
+    var row = document.createElement('tr');
+    //row.setAttribute('data-pptq-event', this);
+    _.each(columnKeys, function (colKey) {
+        var cell = document.createElement('td');
+        var node;
+        cell.setAttribute('data-column', colKey);
+        if (colKey == 'email') {
+            node = document.createElement('a');
+            node.href = 'mailto:' + pptq[colKey];
+            node.innerText = 'Email';
+            cell.style['text-align'] = 'center';
+            cell.appendChild(node);
+        } else if (colKey == 'startDate') {
+            cell.innerText = moment(this.startDate).format('MM/DD/YY');
+        } else {
+            cell.innerText = pptq[colKey];
+        }
+        row.appendChild(cell);
+    }.bind(this));
+    return row;
+};
 
 Event.prototype.hasLocation = function () {
     return typeof(this.location) !== 'undefined';
@@ -238,7 +243,7 @@ ControlForm.prototype.eventVisible = function (pptqEvent) {
 /** Grinder Object - Top level application object **/
 function Grinder (mapElement, controlFormElement, tableElement) {
     // XXX: don't show table
-    //this.table = tableElement;
+    this.table = tableElement;
     this.mapElement = mapElement;
     this.controller = new ControlForm(controlFormElement, this);
     this.jsonUrl = 'pptqmil15locations.json';
@@ -332,5 +337,6 @@ Grinder.prototype.options = {
 (function ($) {
     var app = new Grinder(
         document.getElementById('map-container'),
-        document.getElementById('controller'));
+        document.getElementById('controller'),
+        document.getElementById('pptq-table'));
 })(jQuery);
