@@ -58,13 +58,13 @@ Event.prototype.createRow = function (pptq) {
         if (colKey == 'email') {
             node = document.createElement('a');
             node.href = 'mailto:' + pptq[colKey];
-            node.innerText = 'Email';
+            node.textContent = 'Email';
             cell.style['text-align'] = 'center';
             cell.appendChild(node);
         } else if (colKey == 'startDate') {
-            cell.innerText = moment(this.startDate).format('MM/DD/YY');
+            cell.textContent = moment(this.startDate).format('MM/DD/YY');
         } else {
-            cell.innerText = pptq[colKey];
+            cell.textContent = pptq[colKey];
         }
         row.appendChild(cell);
     }.bind(this));
@@ -151,19 +151,19 @@ Event.prototype.infoWindowContent = function () {
     var emailLink = document.createElement('a');
     if (typeof(this.location) !== 'undefined' &&
             typeof(this.location.formatted_address) !== 'undefined') {
-        address.innerText = this.location.formatted_address;
+        address.textContent = this.location.formatted_address;
         header.appendChild(this.externalMapLink());
     } else {
-        header.innerText = this.venueName;
+        header.textContent = this.venueName;
     }
-    details.innerText = this.format + ' - ' + formatDateString(this.startDate);
-    emailContainer.innerText = 'Email: ';
+    details.textContent = this.format + ' - ' + formatDateString(this.startDate);
+    emailContainer.textContent = 'Email: ';
     emailLink.href = 'mailto:' + this.email;
-    emailLink.innerText = this.email;
+    emailLink.textContent = this.email;
     emailContainer.appendChild(emailLink);
     container.className = 'info-window';
     container.appendChild(header);
-    if (address.innerText.length > 0) {
+    if (address.textContent.length > 0) {
         container.appendChild(address);
     }
     container.appendChild(details);
@@ -174,7 +174,7 @@ Event.prototype.infoWindowContent = function () {
 
 Event.prototype.externalMapLink = function () {
     var link = document.createElement('a');
-    link.innerText = this.venueName;
+    link.textContent = this.venueName;
     link.target = '_blank';
     link.href = 'https://www.google.com/maps?q=' + this.queryString();
     return link;
