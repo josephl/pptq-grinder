@@ -11,8 +11,16 @@ var columnKeys = [
 
 // Date objects
 var now = new Date();
-var yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+var TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+var YESTERDAY = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
 var CENTER_US = new google.maps.LatLng(37.6, -95.665);
+var PPTQ_SEASON_END = new Date(2015, 4, 24);
+
+/* Get date string of format MM/DD/YYYY */
+function formatDateString (date) {
+    return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+};
+
 
 /** Object definitions **/
 function Event (pptq, app, i) {
@@ -141,7 +149,7 @@ Event.prototype.infoWindowContent = function () {
             typeof(this.location.formatted_address) !== 'undefined') {
         address.innerText = this.location.formatted_address;
     }
-    details.innerText = this.format + ' - ' + this.dateString();
+    details.innerText = this.format + ' - ' + formatDateString(this.startDate);
     emailContainer.innerText = 'Email: ';
     emailLink.href = 'mailto:' + this.email;
     emailLink.innerText = this.email;
@@ -157,15 +165,8 @@ Event.prototype.infoWindowContent = function () {
     return shell.innerHTML;
 };
 
-/* Get date string of format MM/DD/YY */
-Event.prototype.dateString = function () {
-    return (this.startDate.getMonth() + 1) + '/' +
-        this.startDate.getDate() + '/' +
-        (this.startDate.getYear() % 100);
-};
-
 Event.prototype.pastDate = function () {
-    return this.startDate <= yesterday;
+    return this.startDate <= YESTERDAY;
 };
 
 
@@ -291,7 +292,12 @@ Grinder.prototype.options = {
     }
 };
 
+function initialDateRange () {
+    return formatDateString(TODAY) + ' - ' + formatDateString(PPTQ_SEASON_END);
+}
+
 (function ($) {
+    $('input[name="daterange"]').val(initialDateRange).daterangepicker();
     var app = new Grinder(
         document.getElementById('map-container'),
         document.getElementById('controller'));

@@ -6,3 +6,7 @@
 .info-window {
     max-width: 300px;
 }
+
+input[name="daterange"] {
+    width: 100%;
+}
