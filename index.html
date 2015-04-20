@@ -22,15 +22,15 @@
 
     <body>
         <div class="container">
-            <div class="row">
+            <div class="page-header">
                 <h1>PPTQ Grinder</h1>
-                <p>All events subject to change. We encourage you to contact venue/organizer to confirm event and its start time. This page has no affiliation with Wizards of the Coast. Information for this was obtained from the official <a href="http://magic.wizards.com/en/pptqmil15/locations">PPTQ Milwaukee 2015 page</a>.</p>
+                <p>
+                    Contact venue/organizer for start times and to confirm event. Information was obtained from the official <a href="http://magic.wizards.com/en/pptqmil15/locations">PPTQ Milwaukee 2015 page</a>.
+                </p>
             </div>
 
             <div class="row">
-                <div id="map-container" class="col-md-9"></div>
                 <form id="controller" class="col-md-3">
-
                     <!-- Format filter -->
                     <ul class="list-group">
                         <li class="list-group-item active">Format</li>
@@ -64,6 +64,8 @@
                         </li>
                     </ul>
                 </form>
+
+                <div id="map-container" class="col-md-9"></div>
             </div>
 
             <!-- XXX: don't make table
