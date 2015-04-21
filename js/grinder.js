@@ -256,7 +256,7 @@ function Grinder (mapElement, controlFormElement, tableElement) {
     navigator.geolocation.getCurrentPosition(function (position) {
         var currentLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         this.map.setCenter(currentLatLng);
-        this.map.setZoom(8);
+        this.map.setZoom(7);
     }.bind(this));
 }
 
@@ -268,9 +268,25 @@ Grinder.prototype.fetchEvents = function () {
     });
 };
 
-/* Instantiate app's Google Map, called upon geolocation */
+/* Instantiate app's Google Map, hook up search box */
 Grinder.prototype.renderMap = function () {
     this.map = new google.maps.Map(this.mapElement, this.options.mapOptions);
+    // create search box
+    var mapSearchInput = document.getElementById('map-search');
+    console.log(mapSearchInput);
+    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(mapSearchInput);
+    this.searchBox = new google.maps.places.SearchBox(mapSearchInput);
+    google.maps.event.addListener(this.searchBox, 'places_changed', this.searchPlace.bind(this));
+};
+
+/* Map's search place selected, callback. Re-center at selected place */
+Grinder.prototype.searchPlace = function () {
+    var places = this.searchBox.getPlaces();
+    if (places.length === 0) { return; }
+
+    // re-center at searched place
+    this.map.setCenter(places[0].geometry.location);
+    this.map.setZoom(7);
 };
 
 /* Parse PPTQ event JSON, create each Event object */
@@ -330,7 +346,7 @@ Grinder.prototype.options = {
     mapOptions: {
         zoom: 4,
         center: CENTER_US,
-        streetViewControl: false
+        disableDefaultUI: true
     }
 };
 

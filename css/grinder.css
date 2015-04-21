@@ -10,3 +10,14 @@
 input[name="daterange"] {
     width: 100%;
 }
+
+#map-search {
+    width: 360px;
+    font-size: 15px;
+    font-weight: 300;
+    font-family: Roboto;
+    margin-top: 12px;
+    margin-left: 12px;
+    padding: 4px;
+    text-overflow: ellipsis;
+}
