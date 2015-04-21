@@ -32939,32 +32939,25 @@
             "email": "shelmanr@AmazingSpiral.com",
             "format": "Sealed",
             "location": {
-                "formatted_address": "1155 14th Street Northwest, Washington, DC 20005, United States",
+                "formatted_address": "5851 York Road, Baltimore, MD 21212, United States",
                 "geometry": {
                     "location": {
-                        "lat": 38.905096,
-                        "lng": -77.031462
+                        "lat": 39.363243,
+                        "lng": -76.609658
                     }
                 },
-                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/lodging-71.png",
-                "id": "5240941e761193f6ed1148d751247263c92e362c",
-                "name": "The Donovan",
-                "photos": [
-                    {
-                        "height": 2048,
-                        "html_attributions": [
-                            "<a href=\"https://plus.google.com/101864396496190786141\">Darren Kowitt</a>"
-                        ],
-                        "photo_reference": "CoQBdQAAALmteVDR7Hv9QgRh55B6ynGbWRPTkHf5pbkpVcWxiP1g7ze4g1PtUkjX7t4nuIpw48ojWscO04I2MG5oB94kbW1EYWLjCC0Lx0XFgXfIGKl7FqpsYUfdOvfB0wS3S4cq75Eq_W4DLvy4sKeAXkFL1UsoOS0xVJrh4NzdYQ0cKHXfEhDA0c3-0TwJXw2AOXI8BrQfGhSmqG3KXjDUXBLTWpsLsL86QlaVOg",
-                        "width": 1536
-                    }
-                ],
-                "place_id": "ChIJpVekOZW3t4kRLzhqZbDl5iA",
-                "price_level": 3,
-                "rating": 3.4,
-                "reference": "CmReAAAA4tVZwTfsHp66wJ1ySfOSxiZNUCTRWOnDy9Hs162M_QnEGavAKZH3cNf8EfR_mfA0GrijsNIb4f33lG99qkul_GAlE3REQLEuGYd-tNnuX9U-hX1u2zDxI7Fd44lthwpHEhBPKF42pkQAz8QoZv1s7LbcGhSQrpEWUZeo56S5BFMyXBdQ_G7GcQ",
+                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+                "id": "26a0c1bbd356081a2d8cd3453930f5b90cbf4cee",
+                "name": "Amazing Spiral Books, Comics and Toys",
+                "opening_hours": {
+                    "open_now": false,
+                    "weekday_text": []
+                },
+                "place_id": "ChIJf7BrZGQFyIkRrAuf-rvO9-g",
+                "reference": "CoQBeQAAAMKgYQrEWpduuYKtwoH5KxM861-sJxxC1Rbdvvi8BctYLLjmEzHIm-cD7ABEMfWRPVeuFf7aLSsJBmEtCxfoXKszzs60nYA9ZZEDlusx7vgI4vMeBayzq36YpvJDsnH2UevePhwO1ucNH0BhymEmb567otWUj34yht53J13jKlpMEhAJF_XheDiRxpqV1qgzNbGBGhSPlwMyeKCcRnRhtSeBSg9xiMxxgA",
                 "types": [
-                    "lodging",
+                    "book_store",
+                    "store",
                     "establishment"
                 ]
             },
