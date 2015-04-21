@@ -18618,27 +18618,31 @@
             "email": "Mostexcellentgaming@yahoo.com",
             "format": "Modern",
             "location": {
-                "formatted_address": "3377 Berlin Tpke, Newington, CT 06111-5148, United States",
+                "formatted_address": "481 Enfield Street, Enfield, CT 06082, United States",
                 "geometry": {
                     "location": {
-                        "lat": 41.655187,
-                        "lng": -72.725937
+                        "lat": 42.011333,
+                        "lng": -72.591873
                     }
                 },
-                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/electronics-71.png",
-                "id": "cb951fdc6938442f0da14886ae11d0c8cfff3600",
-                "name": "Best Buy",
+                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+                "id": "a5b9c686a8f9643fb8358d6e196344e8e82290d6",
+                "name": "Most Excellent Collectibles",
                 "opening_hours": {
-                    "open_now": false,
+                    "open_now": true,
                     "weekday_text": []
                 },
-                "place_id": "ChIJY7ciwSSz54kRNNWW9TjcTnc",
-                "price_level": 2,
-                "rating": 2.9,
-                "reference": "CmRbAAAA1CMv9s1rLKvUyK9EHdMi_XEnxfHJjfZ8LflBO28BqHa4XphEm98GHD3D-4gANmm4f7lewI9NwOQ84PPVH77WtBxIq2jHOF19_Wt9gnwnCFVGgBAcIFyky3sxbF7ZbO0QEhCpF6gtJXNkbzl9qikRarM4GhTAh3r97CNWxs8-QJHcFQyUtpyFiQ",
+                "photos": [
+                    {
+                        "height": 250,
+                        "html_attributions": [],
+                        "photo_reference": "CoQBfQAAAMeMHWAEXGMnSRV1PvZa9Bkt23SmvJteYyOFeJ_y0zlz6wAguTnaWw2hdWyHPsxe07BV_uNQGmMuhvLFI3dBTSwb5jcSKACOUlaf_S8S0Z4GGuruvlN7rXG_Ss8CgXZHqrqhWgutrsYkInDUmFMpPk8MIal1yfg9Jl2rdhTJmbCMEhD1XcsVqJRMW-hGO9ZH30i7GhRWEHn3VgVil874zhA_Hk364egNrw",
+                        "width": 250
+                    }
+                ],
+                "place_id": "ChIJkd8RiLbk5okR_FqRJRtRNiw",
+                "reference": "CnRuAAAAwUtpYwZp3wsg0cU8B2uiYOrLGcHcx5zmH-O8KXqTQruqbYQ728UEJPW9UcjIQs32h60e6Yhm0VntTAD7-7FF38-MYiqn7tCp73_aF3swKUEXK9zn18qPMuybB_2rS2a3mRlqw2YD7MOKEHTPLZpExBIQ9jlvRGb_ZMxwye2Ua3LgUhoU54LIpb4nquqR8fyqzLTVn5xDUuI",
                 "types": [
-                    "electronics_store",
-                    "home_goods_store",
                     "store",
                     "establishment"
                 ]
