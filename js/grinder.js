@@ -273,7 +273,6 @@ Grinder.prototype.renderMap = function () {
     this.map = new google.maps.Map(this.mapElement, this.options.mapOptions);
     // create search box
     var mapSearchInput = document.getElementById('map-search');
-    console.log(mapSearchInput);
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(mapSearchInput);
     this.searchBox = new google.maps.places.SearchBox(mapSearchInput);
     google.maps.event.addListener(this.searchBox, 'places_changed', this.searchPlace.bind(this));
@@ -346,7 +345,12 @@ Grinder.prototype.options = {
     mapOptions: {
         zoom: 4,
         center: CENTER_US,
-        disableDefaultUI: true
+        disableDefaultUI: true,
+        zoomControl: true,
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.LARGE,
+            position: google.maps.ControlPosition.LEFT_CENTER
+        }
     }
 };
 
