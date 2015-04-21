@@ -22582,25 +22582,20 @@
             "email": "sales@voltagegamingonline.com",
             "format": "Modern",
             "location": {
-                "formatted_address": "225 East Main Street, Clinton, CT 06413, United States",
+                "formatted_address": "743 New Britain Ave, Newington, CT 06111, USA",
                 "geometry": {
                     "location": {
-                        "lat": 41.272289,
-                        "lng": -72.505444
+                        "lat": 41.6721715,
+                        "lng": -72.7538406
                     }
                 },
-                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
-                "id": "5b4b7b7d104b91d4f204f265bd11346f1dc40cb2",
-                "name": "Aqua Arts LLC",
-                "opening_hours": {
-                    "open_now": false,
-                    "weekday_text": []
-                },
-                "place_id": "ChIJmzDMSQ4m5okRJ3o7N-BoKt0",
-                "reference": "CnRhAAAAhyFUR11C7oO_3YaZRJruEWCB09GXjtHjZklMLMzu_AFhGtj8z_p4rHIQVChCwjBtP8k49odXEYbU708klWDlDJdThY-MuFyfngeDJVIwIzWf9fb14D1VEXVy7mKgPfSZ3OZTFX9try6-ax6NqTspkBIQHQ8hiPWtlbSt4rh49BJ51xoUhaRrmmi0OQbjlNRR7G6gSvEbJ34",
+                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+                "id": "877b16d10890c0254980302ef75872600874652e",
+                "name": "743 New Britain Ave",
+                "place_id": "Ei03NDMgTmV3IEJyaXRhaW4gQXZlLCBOZXdpbmd0b24sIENUIDA2MTExLCBVU0E",
+                "reference": "CpQBiwAAAGF6an-79K2vW8vZTWYL4om4rO8ErE-BxqtAUVsVqoI2MntmSGZj84kCAVJJv5HN_3ls0lFLuk-INuZdTx3lXLfc1WlILjDS6KMrxFbIQ5vvw72-2p07_CL0spckb6_E6-iPaYYoEKjyLRQjuue30rtovIPS_a8JEOW2QDV-s60LchTvamPNKI1mMt_iTvpkqhIQwiEpXuYPnSM3x_s89rm-NRoUncmOQtaMM9nRo2eye6ZA91Sple0",
                 "types": [
-                    "store",
-                    "establishment"
+                    "street_address"
                 ]
             },
             "region": "Connecticut",
@@ -22614,25 +22609,20 @@
             "email": "battlegrounds.sales@gmail.com",
             "format": "Standard",
             "location": {
-                "formatted_address": "225 East Main Street, Clinton, CT 06413, United States",
+                "formatted_address": "743 New Britain Ave, Newington, CT 06111, USA",
                 "geometry": {
                     "location": {
-                        "lat": 41.272289,
-                        "lng": -72.505444
+                        "lat": 41.6721715,
+                        "lng": -72.7538406
                     }
                 },
-                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
-                "id": "5b4b7b7d104b91d4f204f265bd11346f1dc40cb2",
-                "name": "Aqua Arts LLC",
-                "opening_hours": {
-                    "open_now": false,
-                    "weekday_text": []
-                },
-                "place_id": "ChIJmzDMSQ4m5okRJ3o7N-BoKt0",
-                "reference": "CnRhAAAA7txCQOkDsP8DiyZWkj3-E7HdMwM4r0Xx-a3teB2HUE8aM3rxkBEfuNgbhj_HnM-oL-90WC4t0gvKtVokZtO76RTZyJNQUSp8_dfnY_zQNUPqMhMgow711xv8Sv4BNqbXPeoQ4OdVEROBvQKrx3wh4xIQS30UwIuUaeHhnubNwrc7ERoUNvLo6_5w5Lv6sC-Pqt9PqU50VRo",
+                "icon": "http://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+                "id": "877b16d10890c0254980302ef75872600874652e",
+                "name": "743 New Britain Ave",
+                "place_id": "Ei03NDMgTmV3IEJyaXRhaW4gQXZlLCBOZXdpbmd0b24sIENUIDA2MTExLCBVU0E",
+                "reference": "CpQBiwAAAGF6an-79K2vW8vZTWYL4om4rO8ErE-BxqtAUVsVqoI2MntmSGZj84kCAVJJv5HN_3ls0lFLuk-INuZdTx3lXLfc1WlILjDS6KMrxFbIQ5vvw72-2p07_CL0spckb6_E6-iPaYYoEKjyLRQjuue30rtovIPS_a8JEOW2QDV-s60LchTvamPNKI1mMt_iTvpkqhIQwiEpXuYPnSM3x_s89rm-NRoUncmOQtaMM9nRo2eye6ZA91Sple0",
                 "types": [
-                    "store",
-                    "establishment"
+                    "street_address"
                 ]
             },
             "region": "Connecticut",
