@@ -63,4 +63,9 @@
 /* Bootstrap override */
 .modal-dialog {
     width: 900px;
+    max-width: 95%;
+}
+
+.modal-content {
+    overflow: auto;
 }
