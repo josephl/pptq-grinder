@@ -48,12 +48,9 @@
     max-width: 240px;
 }
 
-input[name="daterange"] {
-    width: 100%;
-}
-
 #map-search {
-    width: 360px;
+    width: 500px;
+    max-width: 94%;
     font-size: 15px;
     font-weight: 300;
     font-family: Roboto;
