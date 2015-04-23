@@ -201,12 +201,26 @@ function ControlForm (formElement, app) {
     this.format = {};
     this.startDate = TODAY;
     this.endDate = PPTQ_SEASON_END;
-    this.dateRangePicker = $('input[name="daterange"]')
-        .val(moment(this.startDate).format('MM/DD/YYYY') + ' - ' +
-            moment(this.endDate).format('MM/DD/YYYY'))
-        .daterangepicker({
+    this.dateRangePicker = $('#reportrange');
+    this.dateRangePicker.find('span')
+        .html(moment(this.startDate).format('MM/DD/YYYY') + ' - ' +
+            moment(this.endDate).format('MM/DD/YYYY'));
+    var self = this;
+    this.dateRangePicker.daterangepicker({
+            format: 'MM/DD/YYYY',
             minDate: moment(TODAY),
-            maxDate: moment(PPTQ_SEASON_END)
+            maxDate: moment(PPTQ_SEASON_END),
+            startDate: moment(TODAY),
+            endDate: moment(PPTQ_SEASON_END),
+            opens: 'left',
+            drops: 'up'
+        }, function (start, end, label) {
+            // callback upon date selection
+            self.startDate = start._d;
+            self.endDate = end._d;
+            this.element.find('span').html(start.format('MM/DD/YYYY') + ' - ' +
+                end.format('MM/DD/YYYY'));
+            self.updateFilter();
         });
     this.updateFilter();
 }
@@ -217,11 +231,6 @@ ControlForm.prototype.updateFilter = function () {
     _.each(this.element.querySelectorAll('input[type=checkbox]'), function (box) {
         this.format[box.getAttribute('value')] = box.checked;
     }.bind(this));
-
-    // Update date range. XXX: hacky right now. use moment.js everywhere
-    var rangeValue = this.dateRangePicker.val()
-    this.startDate = moment(rangeValue.substr(0, 10), 'MM/DD/YYYY')._d;
-    this.endDate = moment(rangeValue.substr(13), 'MM/DD/YYYY')._d;
 
     this.app.refreshEvents();
 };
@@ -274,7 +283,7 @@ Grinder.prototype.renderMap = function () {
 
     // add control table
     var formatControls = document.getElementById('controller');
-    this.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(formatControls);
+    this.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(formatControls);
 
     // create search box
     var mapSearchInput = document.getElementById('map-search');
@@ -354,7 +363,7 @@ Grinder.prototype.options = {
         zoomControl: true,
         zoomControlOptions: {
             style: google.maps.ZoomControlStyle.LARGE,
-            position: google.maps.ControlPosition.RIGHT_CENTER
+            position: google.maps.ControlPosition.LEFT_CENTER
         }
     }
 };

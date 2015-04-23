@@ -27,6 +27,23 @@
     width: 100%;
 }
 
+.control-col {
+    margin: 36px;
+}
+
+.control-col > div {
+    margin-top: 12px;
+}
+
+#reportrange {
+    background: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    text-align: right;
+}
+
 .info-window {
     max-width: 300px;
 }

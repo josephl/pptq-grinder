@@ -44,39 +44,27 @@
 
         <div class="main-layer">
             <div id="map-container" class="map"></div>
+
             <form id="controller" class="control-col">
-                <!-- Format filter -->
-                <ul class="list-group">
-                    <li class="list-group-item active">Format</li>
-                    <li class="list-group-item">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="format-standard" value="standard" checked="checked">
-                                Standard
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="format-modern" value="modern" checked="checked">
-                                Modern
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="format-sealed" value="sealed" checked="checked">
-                                Sealed
-                            </label>
-                        </div>
-                    </li>
-                </ul>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="checkbox" id="format-standard" value="standard" autocomplete="off" checked>Standard
+                    </label>
+                    <label class="btn btn-default active">
+                        <input type="checkbox" id="format-modern" value="modern" autocomplete="off" checked>Modern
+                    </label>
+                    <label class="btn btn-default active">
+                        <input type="checkbox" id="format-sealed" value="sealed" autocomplete="off" checked>Sealed
+                    </label>
+                </div>
 
                 <!-- Date filter -->
-                <ul class="list-group">
-                    <li class="list-group-item active">Date Range</li>
-                    <li class="list-group-item">
-                            <input type="text" name="daterange"/>
-                    </li>
-                </ul>
+                <div id="reportrange">
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                    <span></span>
+                    <b class="caret"></b>
+                </div>
+
             </form>
         </div>
 
