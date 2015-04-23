@@ -1,6 +1,15 @@
-#map-container {
-    height: 500px;
+.main-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.map {
     background-color: #ddd;
+    height: 100%;
+    width: 100%;
 }
 
 .info-window {

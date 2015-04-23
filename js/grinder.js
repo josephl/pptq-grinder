@@ -271,6 +271,11 @@ Grinder.prototype.fetchEvents = function () {
 /* Instantiate app's Google Map, hook up search box */
 Grinder.prototype.renderMap = function () {
     this.map = new google.maps.Map(this.mapElement, this.options.mapOptions);
+
+    // add control table
+    var formatControls = document.getElementById('controller');
+    this.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(formatControls);
+
     // create search box
     var mapSearchInput = document.getElementById('map-search');
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(mapSearchInput);
@@ -343,13 +348,13 @@ Grinder.prototype.markerClicked = function (clickedEvent) {
 
 Grinder.prototype.options = {
     mapOptions: {
-        zoom: 4,
+        zoom: 5,
         center: CENTER_US,
         disableDefaultUI: true,
         zoomControl: true,
         zoomControlOptions: {
             style: google.maps.ZoomControlStyle.LARGE,
-            position: google.maps.ControlPosition.LEFT_CENTER
+            position: google.maps.ControlPosition.RIGHT_CENTER
         }
     }
 };

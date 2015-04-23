@@ -5,9 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="description" content="PPTQ Grinder helps Magic: the Gathering players search for and find Preliminary Pro Tour Qualifiers in their neighborhood and around the world."/>
         <meta name="keywords" content="PPTQ, Grinder, Magic, mtg, map, location, application, RPTQ, PTQ, TCG"/>
         <meta name="author" content="Joseph Lee"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" type="text/css" href="css/grinder.css"/>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
@@ -25,96 +27,92 @@
     </head>
 
     <body>
-        <div class="container">
-            <div class="page-header">
-                <h1>PPTQ Grinder</h1>
-                <div class="alert alert-info alert-dismissable" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    Thanks to everyone for all the feedback and support!  I'll continue to update and improve this page.<br>
-                    Send me questions or suggestions at <a href="mailto:pptq.grinder@gmail.com" class="alert-link">pptq.grinder@gmail.com</a> or, submit an issue to our <a href="https://github.com/josephl/pptq-grinder/issues" class="alert-link">github issue tracker</a>.
-                </div>
-                <p>
-                    Contact venue/organizer for start times and to confirm event.<br>
-                    Information was obtained from the official <a href="http://magic.wizards.com/en/pptqmil15/locations">PPTQ Milwaukee 2015 page</a>.
-                </p>
-            </div>
+        <div class="main-layer">
+            <div id="map-container" class="map"></div>
+            <form id="controller" class="control-col">
+                <!-- Format filter -->
+                <ul class="list-group">
+                    <li class="list-group-item active">Format</li>
+                    <li class="list-group-item">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="format-standard" value="standard" checked="checked">
+                                Standard
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="format-modern" value="modern" checked="checked">
+                                Modern
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="format-sealed" value="sealed" checked="checked">
+                                Sealed
+                            </label>
+                        </div>
+                    </li>
+                </ul>
 
-            <div class="row">
-                <form id="controller" class="col-md-3">
-                    <!-- Format filter -->
-                    <ul class="list-group">
-                        <li class="list-group-item active">Format</li>
-                        <li class="list-group-item">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" id="format-standard" value="standard" checked="checked">
-                                    Standard
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" id="format-modern" value="modern" checked="checked">
-                                    Modern
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" id="format-sealed" value="sealed" checked="checked">
-                                    Sealed
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <!-- Date filter -->
-                    <ul class="list-group">
-                        <li class="list-group-item active">Date Range</li>
-                        <li class="list-group-item">
-                                <input type="text" name="daterange"/>
-                        </li>
-                    </ul>
-                </form>
-
-                <div id="map-container" class="col-md-9"></div>
-            </div>
-
-            <hr>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">Events Not Mapped</div>
-                <div class="panel-body">
-                    <p>These events weren't easily found by querying Google's Places API.</p>
-                    <table id="pptq-table" class="table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Format</th>
-                                <th>Venue Name</th>
-                                <th>Venue Address</th>
-                                <th>City</th>
-                                <th>Region</th>
-                                <th>Country</th>
-                                <th>Email</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-
-            <hr>
-
-            <footer>
-                <p>
-                    Author takes no responsibility for false, out-of-date, or omitted information.<br>
-                    He does, however, plead that you consult the official <a href="http://magic.wizards.com/en/pptqmil15/locations">PPTQ Milwaukee 2015 page</a> and contact the official parties on event information.
-                </p>
-                <p>
-                    This page has no affiliation with Wizards of the Coast.<br>
-                    Copyright © 2015 Joseph Lee. Content available under the MIT License.<br>
-                    Source code available on <a href="https://github.com/josephl/pptq-grinder" target="_blank">GitHub</a>.
-                </p>
-            </footer>
+                <!-- Date filter -->
+                <ul class="list-group">
+                    <li class="list-group-item active">Date Range</li>
+                    <li class="list-group-item">
+                            <input type="text" name="daterange"/>
+                    </li>
+                </ul>
+            </form>
         </div>
+
+        <!-- Table -->
+        <div class="panel panel-default">
+            <div class="panel-heading">Events Not Mapped</div>
+            <div class="panel-body">
+                <p>These events weren't easily found by querying Google's Places API.</p>
+                <table id="pptq-table" class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Format</th>
+                            <th>Venue Name</th>
+                            <th>Venue Address</th>
+                            <th>City</th>
+                            <th>Region</th>
+                            <th>Country</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        <!-- old footer -->
+        <footer>
+            <p>
+                Author takes no responsibility for false, out-of-date, or omitted information.<br>
+                He does, however, plead that you consult the official <a href="http://magic.wizards.com/en/pptqmil15/locations">PPTQ Milwaukee 2015 page</a> and contact the official parties on event information.
+            </p>
+            <p>
+                This page has no affiliation with Wizards of the Coast.<br>
+                Copyright © 2015 Joseph Lee. Content available under the MIT License.<br>
+                Source code available on <a href="https://github.com/josephl/pptq-grinder" target="_blank">GitHub</a>.
+            </p>
+        </footer>
+
+        <!-- Old header text -->
+        <div class="page-header">
+            <div class="alert alert-info alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                Thanks to everyone for all the feedback and support!  I'll continue to update and improve this page.<br>
+                Send me questions or suggestions at <a href="mailto:pptq.grinder@gmail.com" class="alert-link">pptq.grinder@gmail.com</a> or, submit an issue to our <a href="https://github.com/josephl/pptq-grinder/issues" class="alert-link">github issue tracker</a>.
+            </div>
+            <p>
+                Contact venue/organizer for start times and to confirm event.<br>
+                Information was obtained from the official <a href="http://magic.wizards.com/en/pptqmil15/locations">PPTQ Milwaukee 2015 page</a>.
+            </p>
+        </div>
+
         <input type="text" id="map-search" placeholder="Set a location"/>
 
         <script type="text/javascript" src="js/grinder.js"></script>
