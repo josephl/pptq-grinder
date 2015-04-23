@@ -62,3 +62,8 @@ input[name="daterange"] {
     padding: 4px;
     text-overflow: ellipsis;
 }
+
+/* Bootstrap override */
+.modal-dialog {
+    width: 900px;
+}

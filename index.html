@@ -37,7 +37,7 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="#">Missing PPTQs</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#missing-table-modal">Missing PPTQs</a></li>
                         <li><a href="#">Help</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
@@ -71,25 +71,37 @@
             </form>
         </div>
 
-        <!-- Table -->
-        <div class="panel panel-default">
-            <div class="panel-heading">Events Not Mapped</div>
-            <div class="panel-body">
-                <p>These events weren't easily found by querying Google's Places API.</p>
-                <table id="pptq-table" class="table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Format</th>
-                            <th>Venue Name</th>
-                            <th>Venue Address</th>
-                            <th>City</th>
-                            <th>Region</th>
-                            <th>Country</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                </table>
+        <!-- Missing PPTQ Table Modal -->
+        <div class="modal fade" id="missing-table-modal" tabindex="-1" role="dialog" aria-labelledby="missing-table-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Events Not Mapped</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>These events weren't easily found by querying Google's Places API.</p>
+                        <table id="pptq-table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Format</th>
+                                    <th>Venue Name</th>
+                                    <th>Venue Address</th>
+                                    <th>City</th>
+                                    <th>Region</th>
+                                    <th>Country</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
