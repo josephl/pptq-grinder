@@ -10,9 +10,9 @@ var columnKeys = [
 ];
 
 // Date objects
-var now = new Date();
-var TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-var YESTERDAY = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+var NOW = new Date();
+var TODAY = new Date(NOW.getFullYear(), NOW.getMonth(), NOW.getDate());
+var YESTERDAY = new Date(NOW.getFullYear(), NOW.getMonth(), NOW.getDate() - 1);
 var CENTER_US = new google.maps.LatLng(37.6, -95.665);
 var PPTQ_SEASON_END = new Date(2015, 4, 24);
 
