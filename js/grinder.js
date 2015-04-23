@@ -23,7 +23,7 @@ function formatDateString (date) {
 
 
 /** Object definitions **/
-function Event (pptq, app, i) {
+function Event (pptq, pptqLocation, app, i) {
     var key;
     for (var k in columnKeys) {
         key = columnKeys[k];
@@ -34,7 +34,7 @@ function Event (pptq, app, i) {
         }
     }
     this.app = app;
-    this.location = pptq.location;
+    this.location = pptqLocation;
     this.index = i;
     // XXX: don't make table
     // Create table row IFF location info isn't available
@@ -141,6 +141,14 @@ Event.prototype.setMarker = function (map) {
     }
 };
 
+function formatAddress(pptqObject) {
+    return ['venueAddress', 'city', 'region', 'country'].map(function (key) {
+        return pptqObject[key];
+    }).filter(function (term) {
+        return typeof(term) !== 'undefined' && term.length > 0;
+    }).join(', ');
+}
+
 Event.prototype.infoWindowContent = function () {
     var shell = document.createElement('div');
     var container = document.createElement('div');
@@ -151,7 +159,7 @@ Event.prototype.infoWindowContent = function () {
     var emailLink = document.createElement('a');
     if (typeof(this.location) !== 'undefined' &&
             typeof(this.location.formatted_address) !== 'undefined') {
-        address.textContent = this.location.formatted_address;
+        address.textContent = formatAddress(this);
         header.appendChild(this.externalMapLink());
     } else {
         header.textContent = this.venueName;
@@ -181,11 +189,7 @@ Event.prototype.externalMapLink = function () {
 };
 
 Event.prototype.queryString = function () {
-    var formatStr = this.location.formatted_address;
-    if (typeof(this.location.name) !== 'undefined' && this.location.name.length > 0) {
-        formatStr = this.location.name + ', ' + formatStr;
-    }
-    return encodeURIComponent(formatStr);
+    return encodeURIComponent(this.location.formatted_address);
 };
 
 Event.prototype.pastDate = function () {
@@ -304,9 +308,15 @@ Grinder.prototype.searchPlace = function () {
 
 /* Parse PPTQ event JSON, create each Event object */
 Grinder.prototype.loadEvents = function (data) {
+    var locations = data.locations;
     _.each(data.pptqs, function (pptq, i) {
         // Only show upcoming or current events
-        var pptqEvent = new Event(pptq, this, i);
+        var pptqLocation;
+        // get location, if exists
+        if (typeof(pptq.location) !== 'undefined') {
+            pptqLocation = locations[pptq.location];
+        }
+        var pptqEvent = new Event(pptq, pptqLocation, this, i);
         this.events.push(pptqEvent);
         if (this.showPastEvents === false && pptqEvent.pastDate()) {
             return;
