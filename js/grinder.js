@@ -157,8 +157,7 @@ Event.prototype.infoWindowContent = function () {
     var details = document.createElement('h6');
     var emailContainer = document.createElement('p');
     var emailLink = document.createElement('a');
-    if (typeof(this.location) !== 'undefined' &&
-            typeof(this.location.formatted_address) !== 'undefined') {
+    if (typeof(this.location) !== 'undefined') {
         address.textContent = formatAddress(this);
         header.appendChild(this.externalMapLink());
     } else {
@@ -189,6 +188,9 @@ Event.prototype.externalMapLink = function () {
 };
 
 Event.prototype.queryString = function () {
+    if (typeof(this.location.formatted_address) === 'undefined') {
+        return encodeURIComponent(formatAddress(this));
+    }
     return encodeURIComponent(this.location.formatted_address);
 };
 
