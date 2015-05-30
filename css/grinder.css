@@ -13,6 +13,11 @@
     color: #ddd;
 }
 
+.navbar-brand .beta {
+    font-size: 24px;
+    font-weight: 100;
+}
+
 .main-layer {
     position: absolute;
     top: 0;
