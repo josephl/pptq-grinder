@@ -369,8 +369,9 @@ Grinder.prototype.options = {
 };
 
 (function ($) {
-    var app = new Grinder(
-        document.getElementById('map-container'),
-        document.getElementById('controller'),
-        document.getElementById('pptq-table'));
+    $('#upcoming-modal').modal('show');
+    // var app = new Grinder(
+    //     document.getElementById('map-container'),
+    //     document.getElementById('controller'),
+    //     document.getElementById('pptq-table'));
 })(jQuery);
