@@ -337,7 +337,6 @@ Grinder.prototype.options = {
 };
 
 (function ($) {
-    $('#upcoming-modal').modal('show');
     var app = new Grinder(
         document.getElementById('map-container'),
         document.getElementById('controller'),
