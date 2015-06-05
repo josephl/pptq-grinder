@@ -1,93 +1,53 @@
-var columnKeys = [
-    'startDate',
-    'format',
-    'venueName',
-    'venueAddress',
-    'city',
-    'region',
-    'country',
-    'email'
-];
-
 // Date objects
 var now = new Date();
 var TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 var YESTERDAY = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
 var CENTER_US = new google.maps.LatLng(37.6, -95.665);
-var PPTQ_SEASON_END = new Date(2015, 4, 24);
+// Month is 0-index
+var PPTQ_SEASON_END = new Date(2015, 7, 16);
 
 /* Get date string of format MM/DD/YYYY */
 function formatDateString (date) {
     return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
 };
 
+var addressKeys = [
+    'Line1', 'Line2', 'Line3', 'City', 'StateProvinceCode', 'CountryCode'
+];
+
+/* Format address data from event details */
+function formatAddress (address) {
+    var addressString = '';
+    addressKeys.forEach(function (key) {
+        var delim = addressString.length === 0 ? '' : ', ';
+        if (address[key].length > 0) {
+            addressString += delim + address[key];
+        }
+    });
+    return addressString;
+}
+
 
 /** Object definitions **/
 function Event (pptq, app, i) {
-    var key;
-    for (var k in columnKeys) {
-        key = columnKeys[k];
-        if (key == 'startDate') {
-            this.startDate = new Date(Date.parse(pptq.startDate));
-        } else {
-            this[key] = pptq[key];
-        }
-    }
+    this.data = pptq;
+    this.data.StartDate = new Date(Date.parse(this.data.StartDate));
     this.app = app;
-    this.location = pptq.location;
     this.index = i;
-    // XXX: don't make table
-    // Create table row IFF location info isn't available
-    if (!this.hasLocation()) {
-        this.rowElement = this.createRow(pptq);
-        this.app.table.appendChild(this.rowElement);
-    } else {
-        this.createMarker();
-    }
+    this.createMarker();
 }
-
-// XXX: Don't show tables
-/* Create row element for event to add to table */
-Event.prototype.createRow = function (pptq) {
-    var row = document.createElement('tr');
-    //row.setAttribute('data-pptq-event', this);
-    _.each(columnKeys, function (colKey) {
-        var cell = document.createElement('td');
-        var node;
-        cell.setAttribute('data-column', colKey);
-        if (colKey == 'email') {
-            node = document.createElement('a');
-            node.href = 'mailto:' + pptq[colKey];
-            node.textContent = 'Email';
-            cell.style['text-align'] = 'center';
-            cell.appendChild(node);
-        } else if (colKey == 'startDate') {
-            cell.textContent = moment(this.startDate).format('MM/DD/YY');
-        } else {
-            cell.textContent = pptq[colKey];
-        }
-        row.appendChild(cell);
-    }.bind(this));
-    return row;
-};
-
-Event.prototype.hasLocation = function () {
-    return typeof(this.location) !== 'undefined';
-};
 
 /* Create map marker for event (if location available) */
 Event.prototype.createMarker = function () {
-    var loc;
     var latLng;
+    var addr = this.data.Address;
     var map = this.app.map || null;
-    if (!this.hasLocation()) { return; }
 
-    loc = this.location.geometry.location;
-    latLng = new google.maps.LatLng(loc.lat, loc.lng);
+    latLng = new google.maps.LatLng(addr.Latitude, addr.Longitude);
     this.marker = new google.maps.Marker({
         position: latLng,
         map: map,
-        title: this.venueName
+        title: addr.Name
     });
     this.infoWindow = new google.maps.InfoWindow({
         content: this.infoWindowContent()
@@ -112,21 +72,19 @@ Event.prototype.updateMarker = function () {
 }
 
 Event.prototype.setMarker = function (map) {
-    var loc;
+    var addr = this.data.Address;
     var latLng;
-    if (!this.hasLocation()) { return; }
 
     // Check controller if this event is currently filtered
     if (!this.app.controller.showEvent(this)) { map = null; }
 
     if (typeof(this.marker) === 'undefined') {
         // Marker doesn't exist, create
-        loc = this.location.geometry.location;
-        latLng = new google.maps.LatLng(loc.lat, loc.lng);
+        latLng = new google.maps.LatLng(addr.Latitude, addr.Longitude);
         this.marker = new google.maps.Marker({
             position: latLng,
             map: map,
-            title: this.venueName
+            title: addr.Name
         });
         this.infoWindow = new google.maps.InfoWindow({
             content: this.infoWindowContent()
@@ -141,6 +99,7 @@ Event.prototype.setMarker = function (map) {
     }
 };
 
+/* TODO: templatify this monstrosity */
 Event.prototype.infoWindowContent = function () {
     var shell = document.createElement('div');
     var container = document.createElement('div');
@@ -149,18 +108,20 @@ Event.prototype.infoWindowContent = function () {
     var details = document.createElement('h6');
     var emailContainer = document.createElement('p');
     var emailLink = document.createElement('a');
-    if (typeof(this.location) !== 'undefined' &&
-            typeof(this.location.formatted_address) !== 'undefined') {
-        address.textContent = this.location.formatted_address;
-        header.appendChild(this.externalMapLink());
-    } else {
-        header.textContent = this.venueName;
+    var phoneContainer = document.createElement('p');
+
+    address.textContent = formatAddress(this.data.Address);
+    header.appendChild(this.externalMapLink());
+    details.textContent = this.data.PlayFormatCode + ' - ' +
+        formatDateString(this.data.StartDate);
+    if (this.data.AdditionalDetails && this.data.AdditionalDetails.length > 0) {
+        details.textContent += ' - ' + this.data.AdditionalDetails;
     }
-    details.textContent = this.format + ' - ' + formatDateString(this.startDate);
     emailContainer.textContent = 'Email: ';
-    emailLink.href = 'mailto:' + this.email;
-    emailLink.textContent = this.email;
+    emailLink.href = 'mailto:' + this.data.Email;
+    emailLink.textContent = this.data.Email;
     emailContainer.appendChild(emailLink);
+    phoneContainer.textContent = 'Phone: ' + this.data.PhoneNumber;
     container.className = 'info-window';
     container.appendChild(header);
     if (address.textContent.length > 0) {
@@ -168,15 +129,21 @@ Event.prototype.infoWindowContent = function () {
     }
     container.appendChild(details);
     container.appendChild(emailContainer);
+    if (this.data.PhoneNumber && this.data.PhoneNumber.length > 0) {
+        container.appendChild(phoneContainer);
+    }
     shell.appendChild(container);
     return shell.innerHTML;
 };
 
 Event.prototype.externalMapLink = function () {
     var link = document.createElement('a');
-    link.textContent = this.venueName;
+    var addrId = this.data.Address.Id;
+    link.textContent = this.data.Address.Name;
     link.target = '_blank';
-    link.href = 'https://www.google.com/maps?q=' + this.queryString();
+    link.href = 'http://locator.wizards.com/#brand=magic&a=location&loc=' +
+        addrId + '&addrid=' + addrId + '&p=' +
+        encodeURIComponent(this.data.Address.CountryName);
     return link;
 };
 
@@ -189,12 +156,13 @@ Event.prototype.queryString = function () {
 };
 
 Event.prototype.pastDate = function () {
-    return this.startDate <= YESTERDAY;
+    return this.data.StartDate <= YESTERDAY;
 };
 
 
 /** Control Form **/
 function ControlForm (formElement, app) {
+    var self = this;
     this.app = app;
     this.element = formElement;
     this.element.onchange = this.updateFilter.bind(this);
@@ -205,7 +173,6 @@ function ControlForm (formElement, app) {
     this.dateRangePicker.find('span')
         .html(moment(this.startDate).format('MM/DD/YYYY') + ' - ' +
             moment(this.endDate).format('MM/DD/YYYY'));
-    var self = this;
     this.dateRangePicker.daterangepicker({
             format: 'MM/DD/YYYY',
             minDate: moment(TODAY),
@@ -238,10 +205,11 @@ ControlForm.prototype.updateFilter = function () {
 // Based on form state, determine if event's marker should be shown
 ControlForm.prototype.eventVisible = function (pptqEvent) {
     // Check by format
-    if (!this.format[pptqEvent.format.toLowerCase()]) { return false; }
+    if (!this.format[pptqEvent.data.PlayFormatCode.toLowerCase()]) { return false; }
 
     // Check date within range
-    if (this.startDate > pptqEvent.startDate || this.endDate < pptqEvent.startDate) {
+    if (this.startDate > pptqEvent.data.StartDate ||
+            this.endDate < pptqEvent.data.StartDate) {
         return false;
     }
 
@@ -255,7 +223,7 @@ function Grinder (mapElement, controlFormElement, tableElement) {
     this.table = tableElement;
     this.mapElement = mapElement;
     this.controller = new ControlForm(controlFormElement, this);
-    this.jsonUrl = 'pptqmil15locations.json';
+    this.jsonUrl = 'pptq1st16.json';
     this.showPastEvents = false;
     this.events = [];
     this.eventsCreated = false;
@@ -370,8 +338,8 @@ Grinder.prototype.options = {
 
 (function ($) {
     $('#upcoming-modal').modal('show');
-    // var app = new Grinder(
-    //     document.getElementById('map-container'),
-    //     document.getElementById('controller'),
-    //     document.getElementById('pptq-table'));
+    var app = new Grinder(
+        document.getElementById('map-container'),
+        document.getElementById('controller'),
+        document.getElementById('pptq-table'));
 })(jQuery);
