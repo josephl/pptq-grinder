@@ -6,10 +6,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="description" content="PPTQ Grinder helps Magic: the Gathering players search for and find Preliminary Pro Tour Qualifiers in their neighborhood and around the world."/>
-        <meta name="keywords" content="PPTQ, Grinder, Magic, gathering, mtg, map, location, schedule, application, RPTQ, PTQ, tournament, preliminary, pro, tour, qualifier, tcg, ccg"/>
+        <meta name="description" content="Search for competetive Magic: the Gathering tournaments in your neighborhood and around the world!"/>
+        <meta name="og:author" content="Joseph Lee"/>
         <meta name="author" content="Joseph Lee"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="PPTQ, Grinder, Magic, gathering, mtg, map, location, schedule, application, RPTQ, PTQ, tournament, preliminary, pro, tour, qualifier, tcg, ccg"/>
+
+        <meta property="og:site_name" content="PPTQ Grinder" />
+        <meta property="og:title" content="Find competitive Magic: the Gathering tournaments" />
+        <meta property="og:description" content="Search for competetive Magic: the Gathering tournaments in your neighborhood and around the world!"/>
+        <meta property="og:url" content="http://josephl.github.io/pptq-grinder/">
 
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/daterangepicker-bs3.css"/>
@@ -17,16 +23,54 @@
         
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/underscore.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/moment.min.js"></script>
         <script type="text/javascript" src="js/daterangepicker.js"></script>
 
-        <title>PPTQ Grinder [beta]</title>
+        <title>PPTQ Grinder</title>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAmE3IOWPQIDBpDGrfbRD84RMhIGD8fbnw&libraries=places"></script>
 
     </head>
 
     <body>
+
+        <!-- Share on Facebook -->
+        <div id="fb-root"></div>
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '1865611826998190',
+                    xfbml: true,
+                    version: 'v2.3'
+                });
+            };
+
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
+        <!-- Twitter -->
+        <script>window.onload = function () {window.twttr = (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0],
+            t = window.twttr || {};
+          if (d.getElementById(id)) return t;
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "https://platform.twitter.com/widgets.js";
+          fjs.parentNode.insertBefore(js, fjs);
+         
+          t._e = [];
+          t.ready = function(f) {
+            t._e.push(f);
+          };
+         
+          return t;
+        }(document, "script", "twitter-wjs")); };</script>
+
         <nav class="navbar navbar-inverse navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -45,6 +89,21 @@
                     <ul class="nav navbar-nav">
                         <li><a href="#" data-toggle="modal" data-target="#help-modal">Help</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Share <span class="caret"></span></a>
+                            <ul class="dropdown-menu share-menu" role="menu">
+                                <li>
+                                    <a id="fb-share-page" href="#">
+                                        <div class="fb-share-button" data-href="http://josephl.github.io/pptq-grinder/" data-layout="button"></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <iframe scrolling="no" frameborder="no" allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.html?size=1&url=http%3A%2F%2Fjosephl.github.io%2Fpptq-grinder%2F&text=Locate%20competitive%20Magic%20tournaments%20with%20PPTQ%20Grinder&hashtags=MTG%2CPPTQ&count=none" width="56" height="20"></iframe></a>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -146,5 +205,7 @@
 
         </script>
         <!-- End Google Analytics -->
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
     </body>
 </html>

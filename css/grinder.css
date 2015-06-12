@@ -18,6 +18,14 @@
     font-weight: 100;
 }
 
+.dropdown-menu {
+    min-width: 56px;
+}
+
+.share-menu a {
+    cursor: default;
+}
+
 .main-layer {
     position: absolute;
     top: 0;

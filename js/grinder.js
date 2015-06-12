@@ -336,7 +336,19 @@ Grinder.prototype.options = {
     }
 };
 
+function setupSocialSharing () {
+    var fbShare = document.getElementById('fb-share-page');
+    fbShare.addEventListener('click', function (evt) {
+        FB.ui({
+            method: 'share',
+            app_id: 1865611826998190,
+            href: 'http://josephl.github.io/pptq-grinder/'
+        }, function (response) {});
+    }, false);
+}
+
 (function ($) {
+    setupSocialSharing();
     var app = new Grinder(
         document.getElementById('map-container'),
         document.getElementById('controller'),
