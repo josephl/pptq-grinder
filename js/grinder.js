@@ -348,9 +348,10 @@ function setupSocialSharing () {
 }
 
 (function ($) {
-    setupSocialSharing();
-    var app = new Grinder(
-        document.getElementById('map-container'),
-        document.getElementById('controller'),
-        document.getElementById('pptq-table'));
+    // Shut it down, we're moving!
+    // setupSocialSharing();
+    // var app = new Grinder(
+    //     document.getElementById('map-container'),
+    //     document.getElementById('controller'),
+    //     document.getElementById('pptq-table'));
 })(jQuery);

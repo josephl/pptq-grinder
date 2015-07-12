@@ -20,180 +20,18 @@
 
 
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="css/daterangepicker-bs3.css"/>
         <link rel="stylesheet" type="text/css" href="css/grinder.css"/>
         
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/underscore.js"></script>
-        <script type="text/javascript" src="js/moment.min.js"></script>
-        <script type="text/javascript" src="js/daterangepicker.js"></script>
 
         <title>PPTQ Grinder</title>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAmE3IOWPQIDBpDGrfbRD84RMhIGD8fbnw&libraries=places"></script>
 
     </head>
 
     <body>
 
-        <!-- Share on Facebook -->
-        <div id="fb-root"></div>
-        <script>
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId: '1865611826998190',
-                    xfbml: true,
-                    version: 'v2.3'
-                });
-            };
-
-            (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
-
-        <!-- Twitter -->
-        <script>window.onload = function () {window.twttr = (function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0],
-            t = window.twttr || {};
-          if (d.getElementById(id)) return t;
-          js = d.createElement(s);
-          js.id = id;
-          js.src = "https://platform.twitter.com/widgets.js";
-          fjs.parentNode.insertBefore(js, fjs);
-         
-          t._e = [];
-          t.ready = function(f) {
-            t._e.push(f);
-          };
-         
-          return t;
-        }(document, "script", "twitter-wjs")); };</script>
-
-        <nav class="navbar navbar-inverse navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">
-                        <span class="pptq">PPTQ</span><span class="grinder">Grinder</span> <span class="beta">[beta]</span>
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#" data-toggle="modal" data-target="#help-modal">Help</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#contact-modal">Contact</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Share <span class="caret"></span></a>
-                            <ul class="dropdown-menu share-menu" role="menu">
-                                <li>
-                                    <a id="fb-share-page" href="#">
-                                        <div class="fb-share-button" data-href="http://josephl.github.io/pptq-grinder/" data-layout="button"></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <iframe scrolling="no" frameborder="no" allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.html?size=1&url=http%3A%2F%2Fjosephl.github.io%2Fpptq-grinder%2F&text=Locate%20competitive%20Magic%20tournaments%20with%20PPTQ%20Grinder&hashtags=MTG%2CPPTQ&count=none" width="56" height="20"></iframe></a>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div class="main-layer">
-            <div id="map-container" class="map"></div>
-
-            <form id="controller" class="control-col">
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default active">
-                        <input type="checkbox" id="format-standard" value="standard" autocomplete="off" checked>Standard
-                    </label>
-                    <label class="btn btn-default active">
-                        <input type="checkbox" id="format-modern" value="modern" autocomplete="off" checked>Modern
-                    </label>
-                    <label class="btn btn-default active">
-                        <input type="checkbox" id="format-sealed" value="sealed" autocomplete="off" checked>Sealed
-                    </label>
-                </div>
-
-                <!-- Date filter -->
-                <div id="reportrange">
-                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                    <span></span>
-                    <b class="caret"></b>
-                </div>
-
-            </form>
+        <div class="container">
+            <h1><span class="pptq">PPTQ</span><span class="grinder">Grinder</span> is now <a href="http://scry.land">Scry.land</a></h1>
         </div>
-
-        <!-- Help Modal -->
-        <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Help</h4>
-                    </div>
-
-                    <div class="modal-body">
-                        <p>
-                            Contact venue/organizer for start times and to confirm event.<br>
-                            Information was obtained from the official <a href="http://magic.wizards.com/en/protour/pptq1st16/locations" target="_blank">PPTQ 1st 2016 season page</a>.
-                        </p>
-                        <p>
-                            Author takes no responsibility for false, out-of-date, or omitted information.<br>
-                            He does, however, plead that you consult the official <a href="http://magic.wizards.com/en/protour/pptq1st16/locations" target="_blank">PPTQ 1st 2016 season page</a> and contact the official parties on event information.
-                        </p>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact Modal -->
-        <div class="modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-labelledby="contact-modal-label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Contact</h4>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="alert alert-info alert-dismissable" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            Thanks to everyone for all the feedback and support!  I'll continue to update and improve this page.<br>
-                            Send me questions, suggestions, or report an error at <a href="mailto:pptq.grinder@gmail.com" class="alert-link">pptq.grinder@gmail.com</a> or, submit an issue to our <a href="https://github.com/josephl/pptq-grinder/issues" class="alert-link">github issue tracker</a>.
-                        </div>
-                        <p>
-                            This page has no affiliation with Wizards of the Coast.<br>
-                            Copyright © 2015 <a href="mailto:joe.lee.three.thousand@gmail.com">Joseph Lee</a>. Content available under the MIT License.<br>
-                            Source code available on <a href="https://github.com/josephl/pptq-grinder" target="_blank">GitHub</a>.
-                        </p>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <input type="text" id="map-search" placeholder="Set a location"/>
-
-        <script type="text/javascript" src="js/grinder.js"></script>
 
         <!-- Google Analytics -->
         <script>
@@ -207,7 +45,6 @@
 
         </script>
         <!-- End Google Analytics -->
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
     </body>
 </html>
